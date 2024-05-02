@@ -1,5 +1,7 @@
 package chess;
 
+import java.util.Arrays;
+
 /**
  * A chessboard that can hold and rearrange chess pieces.
  * <p>
@@ -8,9 +10,9 @@ package chess;
  */
 public class ChessBoard {
 
-    public ChessBoard() {
-        
-    }
+    private ChessPiece[][] squares = new ChessPiece[8][8];
+
+    public ChessBoard() { }
 
     /**
      * Adds a chess piece to the chessboard
@@ -18,9 +20,7 @@ public class ChessBoard {
      * @param position where to add the piece to
      * @param piece    the piece to add
      */
-    public void addPiece(ChessPosition position, ChessPiece piece) {
-        throw new RuntimeException("Not implemented");
-    }
+    public void addPiece(ChessPosition position, ChessPiece piece) { squares[position.getRow()-1][position.getColumn()-1] = piece; }
 
     /**
      * Gets a chess piece on the chessboard
@@ -29,8 +29,19 @@ public class ChessBoard {
      * @return Either the piece at the position, or null if no piece is at that
      * position
      */
-    public ChessPiece getPiece(ChessPosition position) {
-        throw new RuntimeException("Not implemented");
+    public ChessPiece getPiece(ChessPosition position) { return squares[position.getRow()-1][position.getColumn()-1]; }
+
+    /**
+     * Gets the color of a chess piece on the chessboard
+     *
+     * @param position The position to get the piece from
+     * @return Either the color of the piece at the position, or null if no
+     * piece is at that position
+     */
+    public ChessGame.TeamColor getPieceColor(ChessPosition position) {
+        ChessPiece piece = getPiece(position);
+        if(piece == null) { return null; }
+        return piece.getTeamColor();
     }
 
     /**
@@ -39,5 +50,18 @@ public class ChessBoard {
      */
     public void resetBoard() {
         throw new RuntimeException("Not implemented");
+    }
+
+    @Override
+    public final boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ChessBoard that)) return false;
+
+        return Arrays.deepEquals(squares, that.squares);
+    }
+
+    @Override
+    public int hashCode() {
+        return Arrays.deepHashCode(squares);
     }
 }
