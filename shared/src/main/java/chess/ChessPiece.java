@@ -49,7 +49,28 @@ public class ChessPiece {
      * @return Collection of valid moves
      */
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
-        throw new RuntimeException("Not implemented");
+        if(type == PieceType.PAWN && pieceColor == ChessGame.TeamColor.WHITE) {
+            return MoveFinder.whitePawnMoves(board,myPosition);
+        }
+        else if(type == PieceType.PAWN && pieceColor == ChessGame.TeamColor.BLACK) {
+            return MoveFinder.blackPawnMoves(board,myPosition);
+        }
+        else if(type == PieceType.ROOK) {
+            return MoveFinder.rookMoves(board,myPosition,pieceColor);
+        }
+        else if(type == PieceType.KNIGHT) {
+            return MoveFinder.knightMoves(board,myPosition,pieceColor);
+        }
+        else if(type == PieceType.BISHOP) {
+            return MoveFinder.bishopMoves(board,myPosition,pieceColor);
+        }
+        else if(type == PieceType.QUEEN) {
+            return MoveFinder.queenMoves(board,myPosition,pieceColor);
+        }
+        else if(type == PieceType.KING) {
+            return MoveFinder.kingMoves(board,myPosition,pieceColor);
+        }
+        return null;
     }
 
     @Override
