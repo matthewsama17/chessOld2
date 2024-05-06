@@ -6,6 +6,23 @@ import java.util.Objects;
 public class MoveFinder {
 
     /**
+     * Calculates all the positions a pawn can move to
+     * Does not take into account moves that are illegal due to leaving the king in
+     * danger
+     *
+     * @return Collection of valid moves
+     */
+    public static Collection<ChessMove> pawnMoves(ChessBoard board, ChessPosition myPosition, ChessGame.TeamColor myColor) {
+        if(myColor == ChessGame.TeamColor.WHITE) {
+            return whitePawnMoves(board,myPosition);
+        }
+        else if(myColor == ChessGame.TeamColor.BLACK) {
+            return blackPawnMoves(board,myPosition);
+        }
+        return null;
+    }
+
+    /**
      * Calculates all the positions a white pawn can move to
      * Does not take into account moves that are illegal due to leaving the king in
      * danger

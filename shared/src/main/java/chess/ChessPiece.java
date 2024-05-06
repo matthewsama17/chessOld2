@@ -49,11 +49,8 @@ public class ChessPiece {
      * @return Collection of valid moves
      */
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
-        if(type == PieceType.PAWN && pieceColor == ChessGame.TeamColor.WHITE) {
-            return MoveFinder.whitePawnMoves(board,myPosition);
-        }
-        else if(type == PieceType.PAWN && pieceColor == ChessGame.TeamColor.BLACK) {
-            return MoveFinder.blackPawnMoves(board,myPosition);
+        if(type == PieceType.PAWN) {
+            return MoveFinder.pawnMoves(board,myPosition,pieceColor);
         }
         else if(type == PieceType.ROOK) {
             return MoveFinder.rookMoves(board,myPosition,pieceColor);
