@@ -67,51 +67,53 @@ public class MoveFinder {
     public static Collection<ChessMove> knightMoves(ChessBoard board, ChessPosition myPosition, ChessGame.TeamColor myColor) {
         Set<ChessMove> moves = new HashSet<ChessMove>();
         ChessPosition otherPosition;
+        int row = myPosition.getRow();
+        int col = myPosition.getColumn();
 
         //forward right
-        otherPosition = new ChessPosition(myPosition.getRow()+2, myPosition.getColumn()+1);
+        otherPosition = new ChessPosition(row+2, col+1);
         if(otherPosition.onBoard() && board.getPieceColor(otherPosition) != myColor) {
             moves.add(new ChessMove(myPosition,otherPosition,null));
         }
 
         //right forward
-        otherPosition = new ChessPosition(myPosition.getRow()+1, myPosition.getColumn()+2);
+        otherPosition = new ChessPosition(row+1, col+2);
         if(otherPosition.onBoard() && board.getPieceColor(otherPosition) != myColor) {
             moves.add(new ChessMove(myPosition,otherPosition,null));
         }
 
         //right backward
-        otherPosition = new ChessPosition(myPosition.getRow()-1, myPosition.getColumn()+2);
+        otherPosition = new ChessPosition(row-1, col+2);
         if(otherPosition.onBoard() && board.getPieceColor(otherPosition) != myColor) {
             moves.add(new ChessMove(myPosition,otherPosition,null));
         }
 
         //backward right
-        otherPosition = new ChessPosition(myPosition.getRow()-2, myPosition.getColumn()+1);
+        otherPosition = new ChessPosition(row-2, col+1);
         if(otherPosition.onBoard() && board.getPieceColor(otherPosition) != myColor) {
             moves.add(new ChessMove(myPosition,otherPosition,null));
         }
 
         //backward left
-        otherPosition = new ChessPosition(myPosition.getRow()-2, myPosition.getColumn()-1);
+        otherPosition = new ChessPosition(row-2, col-1);
         if(otherPosition.onBoard() && board.getPieceColor(otherPosition) != myColor) {
             moves.add(new ChessMove(myPosition,otherPosition,null));
         }
 
         //left backward
-        otherPosition = new ChessPosition(myPosition.getRow()-1, myPosition.getColumn()-2);
+        otherPosition = new ChessPosition(row-1, col-2);
         if(otherPosition.onBoard() && board.getPieceColor(otherPosition) != myColor) {
             moves.add(new ChessMove(myPosition,otherPosition,null));
         }
 
         //left forward
-        otherPosition = new ChessPosition(myPosition.getRow()+1, myPosition.getColumn()-2);
+        otherPosition = new ChessPosition(row+1, col-2);
         if(otherPosition.onBoard() && board.getPieceColor(otherPosition) != myColor) {
             moves.add(new ChessMove(myPosition,otherPosition,null));
         }
 
         //forward left
-        otherPosition = new ChessPosition(myPosition.getRow()+2, myPosition.getColumn()-1);
+        otherPosition = new ChessPosition(row+2, col-1);
         if(otherPosition.onBoard() && board.getPieceColor(otherPosition) != myColor) {
             moves.add(new ChessMove(myPosition,otherPosition,null));
         }
@@ -153,51 +155,53 @@ public class MoveFinder {
     public static Collection<ChessMove> kingMoves(ChessBoard board, ChessPosition myPosition, ChessGame.TeamColor myColor) {
         Set<ChessMove> moves = new HashSet<ChessMove>();
         ChessPosition otherPosition;
+        int row = myPosition.getRow();
+        int col = myPosition.getColumn();
 
         //forward
-        otherPosition = new ChessPosition(myPosition.getRow()+1, myPosition.getColumn());
+        otherPosition = new ChessPosition(row+1, col);
         if(otherPosition.onBoard() && board.getPieceColor(otherPosition) != myColor) {
             moves.add(new ChessMove(myPosition,otherPosition,null));
         }
 
         //backward
-        otherPosition = new ChessPosition(myPosition.getRow()-1, myPosition.getColumn());
+        otherPosition = new ChessPosition(row-1, col);
         if(otherPosition.onBoard() && board.getPieceColor(otherPosition) != myColor) {
             moves.add(new ChessMove(myPosition,otherPosition,null));
         }
 
         //right
-        otherPosition = new ChessPosition(myPosition.getRow(), myPosition.getColumn()+1);
+        otherPosition = new ChessPosition(row, col+1);
         if(otherPosition.onBoard() && board.getPieceColor(otherPosition) != myColor) {
             moves.add(new ChessMove(myPosition,otherPosition,null));
         }
 
         //left
-        otherPosition = new ChessPosition(myPosition.getRow(), myPosition.getColumn()-1);
+        otherPosition = new ChessPosition(row, col-1);
         if(otherPosition.onBoard() && board.getPieceColor(otherPosition) != myColor) {
             moves.add(new ChessMove(myPosition,otherPosition,null));
         }
 
         //forward right
-        otherPosition = new ChessPosition(myPosition.getRow()+1, myPosition.getColumn()+1);
+        otherPosition = new ChessPosition(row+1, col+1);
         if(otherPosition.onBoard() && board.getPieceColor(otherPosition) != myColor) {
             moves.add(new ChessMove(myPosition,otherPosition,null));
         }
 
         //backward right
-        otherPosition = new ChessPosition(myPosition.getRow()-1, myPosition.getColumn()+1);
+        otherPosition = new ChessPosition(row-1, col+1);
         if(otherPosition.onBoard() && board.getPieceColor(otherPosition) != myColor) {
             moves.add(new ChessMove(myPosition,otherPosition,null));
         }
 
         //backward left
-        otherPosition = new ChessPosition(myPosition.getRow()-1, myPosition.getColumn()-1);
+        otherPosition = new ChessPosition(row-1, col-1);
         if(otherPosition.onBoard() && board.getPieceColor(otherPosition) != myColor) {
             moves.add(new ChessMove(myPosition,otherPosition,null));
         }
 
         //forward left
-        otherPosition = new ChessPosition(myPosition.getRow()+1, myPosition.getColumn()-1);
+        otherPosition = new ChessPosition(row+1, col-1);
         if(otherPosition.onBoard() && board.getPieceColor(otherPosition) != myColor) {
             moves.add(new ChessMove(myPosition,otherPosition,null));
         }
