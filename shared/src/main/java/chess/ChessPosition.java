@@ -28,6 +28,11 @@ public class ChessPosition {
      */
     public int getColumn() { return col; }
 
+    /**
+     * @return true if both col and row are between 1 and 8 (inclusive)
+     */
+    public boolean onBoard() { return row >= 1 && row <= 8 && col >= 1 && col <= 8; }
+
     @Override
     public String toString() {
         return "ChessPosition{" +
