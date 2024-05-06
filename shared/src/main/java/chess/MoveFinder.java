@@ -194,7 +194,72 @@ public class MoveFinder {
      * @return Collection of valid moves
      */
     public static Collection<ChessMove> bishopMoves(ChessBoard board, ChessPosition myPosition, ChessGame.TeamColor myColor) {
-        throw new RuntimeException("Not implemented");
+        Set<ChessMove> moves = new HashSet<ChessMove>();
+        ChessPosition otherPosition;
+        int row = myPosition.getRow();
+        int col = myPosition.getColumn();
+
+        //forward right
+        for(otherPosition = new ChessPosition(row+1,col+1); otherPosition.onBoard(); otherPosition = new ChessPosition(otherPosition.getRow()+1,otherPosition.getColumn()+1)) {
+            ChessGame.TeamColor otherColor = board.getPieceColor(otherPosition);
+            if(otherColor == myColor) {
+                break;
+            }
+            else if(otherColor == null) {
+                moves.add(new ChessMove(myPosition,otherPosition,null));
+            }
+            else {
+                moves.add(new ChessMove(myPosition,otherPosition,null));
+                break;
+            }
+        }
+
+        //backward right
+        for(otherPosition = new ChessPosition(row-1,col+1); otherPosition.onBoard(); otherPosition = new ChessPosition(otherPosition.getRow()-1,otherPosition.getColumn()+1)) {
+            ChessGame.TeamColor otherColor = board.getPieceColor(otherPosition);
+            if(otherColor == myColor) {
+                break;
+            }
+            else if(otherColor == null) {
+                moves.add(new ChessMove(myPosition,otherPosition,null));
+            }
+            else {
+                moves.add(new ChessMove(myPosition,otherPosition,null));
+                break;
+            }
+        }
+
+        //backward left
+        for(otherPosition = new ChessPosition(row-1,col-1); otherPosition.onBoard(); otherPosition = new ChessPosition(otherPosition.getRow()-1,otherPosition.getColumn()-1)) {
+            ChessGame.TeamColor otherColor = board.getPieceColor(otherPosition);
+            if(otherColor == myColor) {
+                break;
+            }
+            else if(otherColor == null) {
+                moves.add(new ChessMove(myPosition,otherPosition,null));
+            }
+            else {
+                moves.add(new ChessMove(myPosition,otherPosition,null));
+                break;
+            }
+        }
+
+        //forward left
+        for(otherPosition = new ChessPosition(row+1,col-1); otherPosition.onBoard(); otherPosition = new ChessPosition(otherPosition.getRow()+1,otherPosition.getColumn()-1)) {
+            ChessGame.TeamColor otherColor = board.getPieceColor(otherPosition);
+            if(otherColor == myColor) {
+                break;
+            }
+            else if(otherColor == null) {
+                moves.add(new ChessMove(myPosition,otherPosition,null));
+            }
+            else {
+                moves.add(new ChessMove(myPosition,otherPosition,null));
+                break;
+            }
+        }
+
+        return moves;
     }
 
     /**
