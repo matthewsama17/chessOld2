@@ -1,7 +1,6 @@
 package chess;
 
 import java.util.Collection;
-import java.util.Objects;
 import java.util.HashSet;
 
 public class MoveFinder {
@@ -183,57 +182,30 @@ public class MoveFinder {
      */
     public static Collection<ChessMove> knightMoves(ChessBoard board, ChessPosition myPosition, ChessGame.TeamColor myColor) {
         var moves = new HashSet<ChessMove>();
-        ChessPosition otherPosition;
-        int row = myPosition.getRow();
-        int col = myPosition.getColumn();
 
         //forward right
-        otherPosition = new ChessPosition(row+2, col+1);
-        if(otherPosition.onBoard() && board.getPieceColor(otherPosition) != myColor) {
-            moves.add(new ChessMove(myPosition,otherPosition,null));
-        }
+        moves.addAll(jumpMoves(2,1,board,myPosition,myColor));
 
         //right forward
-        otherPosition = new ChessPosition(row+1, col+2);
-        if(otherPosition.onBoard() && board.getPieceColor(otherPosition) != myColor) {
-            moves.add(new ChessMove(myPosition,otherPosition,null));
-        }
+        moves.addAll(jumpMoves(1,2,board,myPosition,myColor));
 
         //right backward
-        otherPosition = new ChessPosition(row-1, col+2);
-        if(otherPosition.onBoard() && board.getPieceColor(otherPosition) != myColor) {
-            moves.add(new ChessMove(myPosition,otherPosition,null));
-        }
+        moves.addAll(jumpMoves(-1,2,board,myPosition,myColor));
 
         //backward right
-        otherPosition = new ChessPosition(row-2, col+1);
-        if(otherPosition.onBoard() && board.getPieceColor(otherPosition) != myColor) {
-            moves.add(new ChessMove(myPosition,otherPosition,null));
-        }
+        moves.addAll(jumpMoves(-2,1,board,myPosition,myColor));
 
         //backward left
-        otherPosition = new ChessPosition(row-2, col-1);
-        if(otherPosition.onBoard() && board.getPieceColor(otherPosition) != myColor) {
-            moves.add(new ChessMove(myPosition,otherPosition,null));
-        }
+        moves.addAll(jumpMoves(-2,-1,board,myPosition,myColor));
 
         //left backward
-        otherPosition = new ChessPosition(row-1, col-2);
-        if(otherPosition.onBoard() && board.getPieceColor(otherPosition) != myColor) {
-            moves.add(new ChessMove(myPosition,otherPosition,null));
-        }
+        moves.addAll(jumpMoves(-1,-2,board,myPosition,myColor));
 
         //left forward
-        otherPosition = new ChessPosition(row+1, col-2);
-        if(otherPosition.onBoard() && board.getPieceColor(otherPosition) != myColor) {
-            moves.add(new ChessMove(myPosition,otherPosition,null));
-        }
+        moves.addAll(jumpMoves(1,-2,board,myPosition,myColor));
 
         //forward left
-        otherPosition = new ChessPosition(row+2, col-1);
-        if(otherPosition.onBoard() && board.getPieceColor(otherPosition) != myColor) {
-            moves.add(new ChessMove(myPosition,otherPosition,null));
-        }
+        moves.addAll(jumpMoves(2,-1,board,myPosition,myColor));
 
         return moves;
     }
@@ -286,57 +258,30 @@ public class MoveFinder {
      */
     public static Collection<ChessMove> kingMoves(ChessBoard board, ChessPosition myPosition, ChessGame.TeamColor myColor) {
         var moves = new HashSet<ChessMove>();
-        ChessPosition otherPosition;
-        int row = myPosition.getRow();
-        int col = myPosition.getColumn();
 
         //forward
-        otherPosition = new ChessPosition(row+1, col);
-        if(otherPosition.onBoard() && board.getPieceColor(otherPosition) != myColor) {
-            moves.add(new ChessMove(myPosition,otherPosition,null));
-        }
+        moves.addAll(jumpMoves(1,0,board,myPosition,myColor));
 
         //backward
-        otherPosition = new ChessPosition(row-1, col);
-        if(otherPosition.onBoard() && board.getPieceColor(otherPosition) != myColor) {
-            moves.add(new ChessMove(myPosition,otherPosition,null));
-        }
+        moves.addAll(jumpMoves(-1,0,board,myPosition,myColor));
 
         //right
-        otherPosition = new ChessPosition(row, col+1);
-        if(otherPosition.onBoard() && board.getPieceColor(otherPosition) != myColor) {
-            moves.add(new ChessMove(myPosition,otherPosition,null));
-        }
+        moves.addAll(jumpMoves(0,1,board,myPosition,myColor));
 
         //left
-        otherPosition = new ChessPosition(row, col-1);
-        if(otherPosition.onBoard() && board.getPieceColor(otherPosition) != myColor) {
-            moves.add(new ChessMove(myPosition,otherPosition,null));
-        }
+        moves.addAll(jumpMoves(0,-1,board,myPosition,myColor));
 
         //forward right
-        otherPosition = new ChessPosition(row+1, col+1);
-        if(otherPosition.onBoard() && board.getPieceColor(otherPosition) != myColor) {
-            moves.add(new ChessMove(myPosition,otherPosition,null));
-        }
+        moves.addAll(jumpMoves(1,1,board,myPosition,myColor));
 
         //backward right
-        otherPosition = new ChessPosition(row-1, col+1);
-        if(otherPosition.onBoard() && board.getPieceColor(otherPosition) != myColor) {
-            moves.add(new ChessMove(myPosition,otherPosition,null));
-        }
+        moves.addAll(jumpMoves(-1,1,board,myPosition,myColor));
 
         //backward left
-        otherPosition = new ChessPosition(row-1, col-1);
-        if(otherPosition.onBoard() && board.getPieceColor(otherPosition) != myColor) {
-            moves.add(new ChessMove(myPosition,otherPosition,null));
-        }
+        moves.addAll(jumpMoves(-1,-1,board,myPosition,myColor));
 
         //forward left
-        otherPosition = new ChessPosition(row+1, col-1);
-        if(otherPosition.onBoard() && board.getPieceColor(otherPosition) != myColor) {
-            moves.add(new ChessMove(myPosition,otherPosition,null));
-        }
+        moves.addAll(jumpMoves(1,-1,board,myPosition,myColor));
 
         return moves;
     }
@@ -366,6 +311,23 @@ public class MoveFinder {
                 moves.add(new ChessMove(myPosition,otherPosition,null));
                 break;
             }
+        }
+
+        return moves;
+    }
+
+    /**
+     * Calculates if a piece can move by jumping
+     * Used by kingMoves and knightMoves
+     *
+     * @return Collection of moves
+     */
+    private static Collection<ChessMove> jumpMoves(int rowStep, int colStep, ChessBoard board, ChessPosition myPosition, ChessGame.TeamColor myColor) {
+        var moves = new HashSet<ChessMove>();
+        ChessPosition otherPosition = new ChessPosition(myPosition.getRow()+rowStep, myPosition.getColumn()+colStep);
+
+        if(otherPosition.onBoard() && board.getPieceColor(otherPosition) != myColor) {
+            moves.add(new ChessMove(myPosition,otherPosition,null));
         }
 
         return moves;
