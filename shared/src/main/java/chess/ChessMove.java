@@ -1,6 +1,8 @@
 package chess;
 
 import java.util.Objects;
+import java.util.Collection;
+import java.util.HashSet;
 
 /**
  * Represents moving a chess piece on a chessboard
@@ -19,6 +21,19 @@ public class ChessMove {
         this.startPosition = startPosition;
         this.endPosition = endPosition;
         this.promotionPiece = promotionPiece;
+    }
+
+    /**
+     * @return Collection of ChessMoves with all possible pawn
+     * promotions with a given startPosition and endPosition;
+     */
+    public static Collection<ChessMove> allPromotions(ChessPosition startPosition, ChessPosition endPosition) {
+        var moves = new HashSet<ChessMove>();
+        moves.add(new ChessMove(startPosition,endPosition, ChessPiece.PieceType.QUEEN));
+        moves.add(new ChessMove(startPosition,endPosition, ChessPiece.PieceType.ROOK));
+        moves.add(new ChessMove(startPosition,endPosition, ChessPiece.PieceType.KNIGHT));
+        moves.add(new ChessMove(startPosition,endPosition, ChessPiece.PieceType.BISHOP));
+        return moves;
     }
 
     /**

@@ -39,10 +39,7 @@ public class MoveFinder {
         otherPosition = new ChessPosition(row+1,col);
         if(otherPosition.onBoard() && board.getPieceColor(otherPosition) == null) {
             if (row == 7){
-                moves.add(new ChessMove(myPosition,otherPosition, ChessPiece.PieceType.QUEEN));
-                moves.add(new ChessMove(myPosition,otherPosition, ChessPiece.PieceType.ROOK));
-                moves.add(new ChessMove(myPosition,otherPosition, ChessPiece.PieceType.BISHOP));
-                moves.add(new ChessMove(myPosition,otherPosition, ChessPiece.PieceType.KNIGHT));
+                moves.addAll(ChessMove.allPromotions(myPosition,otherPosition));
             }
             else {
                 moves.add(new ChessMove(myPosition, otherPosition, null));
@@ -58,10 +55,7 @@ public class MoveFinder {
         otherPosition = new ChessPosition(row+1,col+1);
         if(otherPosition.onBoard() && board.getPieceColor(otherPosition) == ChessGame.TeamColor.BLACK) {
             if (row == 7){
-                moves.add(new ChessMove(myPosition,otherPosition, ChessPiece.PieceType.QUEEN));
-                moves.add(new ChessMove(myPosition,otherPosition, ChessPiece.PieceType.ROOK));
-                moves.add(new ChessMove(myPosition,otherPosition, ChessPiece.PieceType.BISHOP));
-                moves.add(new ChessMove(myPosition,otherPosition, ChessPiece.PieceType.KNIGHT));
+                moves.addAll(ChessMove.allPromotions(myPosition,otherPosition));
             }
             else {
                 moves.add(new ChessMove(myPosition, otherPosition, null));
