@@ -1,6 +1,7 @@
 package chess;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 /**
  * A chessboard that can hold and rearrange chess pieces.
@@ -8,7 +9,7 @@ import java.util.Arrays;
  * Note: You can add to this class, but you may not alter
  * signature of the existing methods.
  */
-public class ChessBoard {
+public class ChessBoard implements Cloneable {
 
     private ChessPiece[][] squares = new ChessPiece[8][8];
 
@@ -94,5 +95,18 @@ public class ChessBoard {
     @Override
     public int hashCode() {
         return Arrays.deepHashCode(squares);
+    }
+
+    @Override
+    public ChessBoard clone() {
+        ChessBoard result = new ChessBoard();
+
+        for(int r = 0; r <= 7; r++) {
+            for(int c = 0; c <= 7; c++) {
+                result.squares[r][c] = squares[r][c];
+            }
+        }
+
+        return result;
     }
 }
