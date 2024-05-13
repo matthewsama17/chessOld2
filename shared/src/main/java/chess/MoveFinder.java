@@ -13,48 +13,46 @@ public class MoveFinder {
      * @return Collection of valid moves
      */
     public static Collection<ChessMove> pawnMoves(ChessBoard board, ChessPosition myPosition, ChessGame.TeamColor myColor) {
+        var moves = new HashSet<ChessMove>();
+        ChessPosition otherPosition;
+        int row = myPosition.getRow();
+        int col = myPosition.getColumn();
+        int direction = 0;
+        boolean atStart = false;
+        boolean atEnd = false;
+
         if(myColor == ChessGame.TeamColor.WHITE) {
-            return whitePawnMoves(board,myPosition);
+            direction = 1;
+            if(row == 2) { atStart = true; }
+            if(row == 7) {atEnd = true; }
         }
         else if(myColor == ChessGame.TeamColor.BLACK) {
-            return blackPawnMoves(board,myPosition);
+            direction = -1;
+            if(row == 2) { atEnd = true; }
+            if(row == 7) {atStart = true; }
         }
-        return null;
-    }
 
-    /**
-     * Calculates all the positions a white pawn can move to
-     * Does not take into account moves that are illegal due to leaving the king in
-     * danger
-     *
-     * @return Collection of valid moves
-     */
-    public static Collection<ChessMove> whitePawnMoves(ChessBoard board, ChessPosition myPosition) {
-        var moves = new HashSet<ChessMove>();
-        ChessPosition otherPosition;
-        int row = myPosition.getRow();
-        int col = myPosition.getColumn();
-
-        //onward
-        otherPosition = new ChessPosition(row+1,col);
+        //advance
+        otherPosition = new ChessPosition(row+direction,col);
         if(otherPosition.onBoard() && board.getPieceColor(otherPosition) == null) {
-            if (row == 7){
+            if (atEnd){
                 moves.addAll(ChessMove.allPromotions(myPosition,otherPosition));
             }
             else {
                 moves.add(new ChessMove(myPosition, otherPosition, null));
             }
 
-            otherPosition = new ChessPosition(row+2,col);
-            if(row == 2 && board.getPieceColor(otherPosition) == null) {
+            //double advance
+            otherPosition = new ChessPosition(row+direction*2,col);
+            if(atStart && board.getPieceColor(otherPosition) == null) {
                 moves.add(new ChessMove(myPosition,otherPosition,null));
             }
         }
 
         //right capture
-        otherPosition = new ChessPosition(row+1,col+1);
-        if(otherPosition.onBoard() && board.getPieceColor(otherPosition) == ChessGame.TeamColor.BLACK) {
-            if (row == 7){
+        otherPosition = new ChessPosition(row+direction,col+1);
+        if(otherPosition.onBoard() && board.getPieceColor(otherPosition) != null && board.getPieceColor(otherPosition) != myColor) {
+            if (atEnd){
                 moves.addAll(ChessMove.allPromotions(myPosition,otherPosition));
             }
             else {
@@ -63,76 +61,10 @@ public class MoveFinder {
         }
 
         //left capture
-        otherPosition = new ChessPosition(row+1,col-1);
-        if(otherPosition.onBoard() && board.getPieceColor(otherPosition) == ChessGame.TeamColor.BLACK) {
-            if (row == 7){
-                moves.add(new ChessMove(myPosition,otherPosition, ChessPiece.PieceType.QUEEN));
-                moves.add(new ChessMove(myPosition,otherPosition, ChessPiece.PieceType.ROOK));
-                moves.add(new ChessMove(myPosition,otherPosition, ChessPiece.PieceType.BISHOP));
-                moves.add(new ChessMove(myPosition,otherPosition, ChessPiece.PieceType.KNIGHT));
-            }
-            else {
-                moves.add(new ChessMove(myPosition, otherPosition, null));
-            }
-        }
-
-        return moves;
-    }
-
-    /**
-     * Calculates all the positions a black pawn can move to
-     * Does not take into account moves that are illegal due to leaving the king in
-     * danger
-     *
-     * @return Collection of valid moves
-     */
-    public static Collection<ChessMove> blackPawnMoves(ChessBoard board, ChessPosition myPosition) {
-        var moves = new HashSet<ChessMove>();
-        ChessPosition otherPosition;
-        int row = myPosition.getRow();
-        int col = myPosition.getColumn();
-
-        //onward
-        otherPosition = new ChessPosition(row-1,col);
-        if(otherPosition.onBoard() && board.getPieceColor(otherPosition) == null) {
-            if (row == 2){
-                moves.add(new ChessMove(myPosition,otherPosition, ChessPiece.PieceType.QUEEN));
-                moves.add(new ChessMove(myPosition,otherPosition, ChessPiece.PieceType.ROOK));
-                moves.add(new ChessMove(myPosition,otherPosition, ChessPiece.PieceType.BISHOP));
-                moves.add(new ChessMove(myPosition,otherPosition, ChessPiece.PieceType.KNIGHT));
-            }
-            else {
-                moves.add(new ChessMove(myPosition, otherPosition, null));
-            }
-
-            otherPosition = new ChessPosition(row-2,col);
-            if(row == 7 && board.getPieceColor(otherPosition) == null) {
-                moves.add(new ChessMove(myPosition,otherPosition,null));
-            }
-        }
-
-        //right capture
-        otherPosition = new ChessPosition(row-1,col+1);
-        if(otherPosition.onBoard() && board.getPieceColor(otherPosition) == ChessGame.TeamColor.WHITE) {
-            if (row == 2){
-                moves.add(new ChessMove(myPosition,otherPosition, ChessPiece.PieceType.QUEEN));
-                moves.add(new ChessMove(myPosition,otherPosition, ChessPiece.PieceType.ROOK));
-                moves.add(new ChessMove(myPosition,otherPosition, ChessPiece.PieceType.BISHOP));
-                moves.add(new ChessMove(myPosition,otherPosition, ChessPiece.PieceType.KNIGHT));
-            }
-            else {
-                moves.add(new ChessMove(myPosition, otherPosition, null));
-            }
-        }
-
-        //left capture
-        otherPosition = new ChessPosition(row-1,col-1);
-        if(otherPosition.onBoard() && board.getPieceColor(otherPosition) == ChessGame.TeamColor.WHITE) {
-            if (row == 2){
-                moves.add(new ChessMove(myPosition,otherPosition, ChessPiece.PieceType.QUEEN));
-                moves.add(new ChessMove(myPosition,otherPosition, ChessPiece.PieceType.ROOK));
-                moves.add(new ChessMove(myPosition,otherPosition, ChessPiece.PieceType.BISHOP));
-                moves.add(new ChessMove(myPosition,otherPosition, ChessPiece.PieceType.KNIGHT));
+        otherPosition = new ChessPosition(row+direction,col-1);
+        if(otherPosition.onBoard() && board.getPieceColor(otherPosition) != null && board.getPieceColor(otherPosition) != myColor) {
+            if (atEnd){
+                moves.addAll(ChessMove.allPromotions(myPosition,otherPosition));
             }
             else {
                 moves.add(new ChessMove(myPosition, otherPosition, null));
