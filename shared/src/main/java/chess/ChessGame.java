@@ -66,7 +66,7 @@ public class ChessGame {
             return null;
         }
         else if(pieceColor != turn) {
-            return java.util.Collections.emptySet();;
+            return java.util.Collections.emptySet();
         }
 
         Collection<ChessMove> moves = gameBoard.getPiece(startPosition).pieceMoves(gameBoard,startPosition);
