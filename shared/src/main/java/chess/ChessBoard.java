@@ -46,6 +46,22 @@ public class ChessBoard implements Cloneable {
     }
 
     /**
+     * makes a move
+     *
+     * @param move the move to be made
+     */
+    public void makeMove(ChessMove move) {
+        ChessPosition startPosition = move.getStartPosition();
+        ChessPosition endPosition = move.getEndPosition();
+        ChessPiece.PieceType pieceType = move.getPromotionPiece();
+        if(pieceType == null) { pieceType = getPiece(startPosition).getPieceType(); }
+        ChessGame.TeamColor teamColor = getPieceColor(startPosition);
+
+        addPiece(startPosition, null);
+        addPiece(endPosition, new ChessPiece(teamColor,pieceType));
+    }
+
+    /**
      * Sets the board to the default starting board
      * (How the game of chess normally starts)
      */
