@@ -62,6 +62,16 @@ public class ChessBoard implements Cloneable {
     }
 
     /**
+     * Determines if the given team is in check
+     *
+     * @param teamColor which team to check for check
+     * @return True if the specified team is in check
+     */
+    public boolean isInCheck(ChessGame.TeamColor teamColor) {
+        throw new RuntimeException("Not implemented");
+    }
+
+    /**
      * Sets the board to the default starting board
      * (How the game of chess normally starts)
      */
