@@ -1,7 +1,7 @@
 package chess;
 
 import java.util.Arrays;
-import java.util.Objects;
+import java.util.Collection;
 
 /**
  * A chessboard that can hold and rearrange chess pieces.
@@ -68,7 +68,40 @@ public class ChessBoard implements Cloneable {
      * @return True if the specified team is in check
      */
     public boolean isInCheck(ChessGame.TeamColor teamColor) {
-        throw new RuntimeException("Not implemented");
+        ChessPosition kingPosition = findKing(teamColor);
+        if(kingPosition == null) { return false; }
+
+        for(int r = 1; r <= 8; r++) {
+            for(int c = 1; c <= 8; c++) {
+                ChessPosition startPosition = new ChessPosition(r,c);
+                if(getPiece(startPosition) == null) { continue; }
+
+                Collection<ChessMove> moves = getPiece(startPosition).pieceMoves(this,startPosition);
+                for(ChessMove move : moves) {
+                    if(move.getEndPosition().equals(kingPosition)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Finds the king of one of the teams
+     *
+     * @param teamColor which team to find the king of
+     * @return ChessPosition the position of the king
+     */
+    public ChessPosition findKing(ChessGame.TeamColor teamColor) {
+        for(int r = 1; r <= 8; r++) {
+            for(int c = 1; c <= 8; c++) {
+                ChessPosition square = new ChessPosition(r,c);
+                ChessPiece piece = getPiece(square);
+                if(getPieceColor(square) == teamColor && piece.getPieceType() == ChessPiece.PieceType.KING) { return square; }
+            }
+        }
+        return null;
     }
 
     /**

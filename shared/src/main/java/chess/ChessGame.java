@@ -1,6 +1,7 @@
 package chess;
 
 import java.util.Collection;
+import java.util.HashSet;
 
 /**
  * For a class that can manage a chess game, making moves on a board
@@ -41,9 +42,7 @@ public class ChessGame {
      *
      * @param team the team whose turn it is
      */
-    public void setTeamTurn(TeamColor team) {
-        turn = team;
-    }
+    public void setTeamTurn(TeamColor team) { turn = team; }
 
     /**
      * Enum identifying the 2 possible teams in a chess game
@@ -65,21 +64,47 @@ public class ChessGame {
         if(pieceColor == null) {
             return null;
         }
-        else if(pieceColor != turn) {
-            return java.util.Collections.emptySet();
-        }
 
         Collection<ChessMove> moves = gameBoard.getPiece(startPosition).pieceMoves(gameBoard,startPosition);
+        Collection<ChessMove> movesToBeRemoved = new HashSet<ChessMove>();
 
         for(ChessMove move : moves) {
             ChessBoard testBoard = gameBoard.clone();
             testBoard.makeMove(move);
             if(testBoard.isInCheck(pieceColor)) {
-                moves.remove(move);
+                movesToBeRemoved.add(move);
             }
         }
 
+        moves.removeAll(movesToBeRemoved);
         return moves;
+    }
+
+    /**
+     * Determines if the current team has a valid move
+     *
+     * @return True if the current team has no valid move
+     */
+    public boolean currentTeamHasNoMoves() { return hasNoMoves(turn); }
+
+    /**
+     * Determines if the given team has a valid move
+     *
+     * @param teamColor which team to check for moves
+     * @return True if the specified team has no valid move
+     */
+    public boolean hasNoMoves(TeamColor teamColor) {
+        for(int r = 1; r <= 8; r++) {
+            for(int c = 1; c <= 8; c++) {
+                if(gameBoard.getPieceColor(new ChessPosition(r,c)) != teamColor) { continue; }
+                Collection<ChessMove> moves = validMoves(new ChessPosition(r,c));
+                if(!moves.isEmpty()) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 
     /**
@@ -89,8 +114,26 @@ public class ChessGame {
      * @throws InvalidMoveException if move is invalid
      */
     public void makeMove(ChessMove move) throws InvalidMoveException {
-        throw new RuntimeException("Not implemented");
+        ChessPosition startPosition = move.getStartPosition();
+        if(gameBoard.getPieceColor(startPosition) != turn) {
+            throw new InvalidMoveException();
+        }
+        Collection<ChessMove> validMoves = validMoves(startPosition);
+        if(!validMoves.contains(move)) {
+            throw new InvalidMoveException();
+        }
+        else {
+            gameBoard.makeMove(move);
+            updateTeamTurn();
+        }
     }
+
+    /**
+     * Determines if the current team is in check
+     *
+     * @return True if the current team is in check
+     */
+    public boolean currentTeamIsInCheck() { return gameBoard.isInCheck(turn); }
 
     /**
      * Determines if the given team is in check
@@ -98,9 +141,14 @@ public class ChessGame {
      * @param teamColor which team to check for check
      * @return True if the specified team is in check
      */
-    public boolean isInCheck(TeamColor teamColor) {
-        throw new RuntimeException("Not implemented");
-    }
+    public boolean isInCheck(TeamColor teamColor) { return gameBoard.isInCheck(teamColor); }
+
+    /**
+     * Determines if the current team is in checkmate
+     *
+     * @return True if the current team is in checkmate
+     */
+    public boolean currentTeamIsInCheckmate() { return currentTeamIsInCheck() && currentTeamHasNoMoves(); }
 
     /**
      * Determines if the given team is in checkmate
@@ -108,9 +156,15 @@ public class ChessGame {
      * @param teamColor which team to check for checkmate
      * @return True if the specified team is in checkmate
      */
-    public boolean isInCheckmate(TeamColor teamColor) {
-        throw new RuntimeException("Not implemented");
-    }
+    public boolean isInCheckmate(TeamColor teamColor) { return isInCheck(teamColor) && hasNoMoves(teamColor); }
+
+    /**
+     * Determines if the current team is in stalemate, which here is defined as having
+     * no valid moves
+     *
+     * @return True if the current team is in stalemate, otherwise false
+     */
+    public boolean currentTeamIsInStalemate() { return !currentTeamIsInCheck() && currentTeamHasNoMoves(); }
 
     /**
      * Determines if the given team is in stalemate, which here is defined as having
@@ -120,7 +174,7 @@ public class ChessGame {
      * @return True if the specified team is in stalemate, otherwise false
      */
     public boolean isInStalemate(TeamColor teamColor) {
-        throw new RuntimeException("Not implemented");
+        return !isInCheck(teamColor) && hasNoMoves(teamColor);
     }
 
     /**
