@@ -13,10 +13,12 @@ public class ChessGame {
 
     private TeamColor turn = TeamColor.WHITE;
     private ChessBoard gameBoard;
+    private Castler castler;
 
     public ChessGame() {
         gameBoard = new ChessBoard();
         gameBoard.resetBoard();
+        castler = new Castler();
     }
 
     /**
@@ -53,7 +55,7 @@ public class ChessGame {
     }
 
     /**
-     * Gets a valid moves for a piece at the given location
+     * Gets valid moves for a piece at the given location
      *
      * @param startPosition the piece to get valid moves for
      * @return Set of valid moves for requested piece, or null if no piece at
@@ -77,6 +79,7 @@ public class ChessGame {
         }
 
         moves.removeAll(movesToBeRemoved);
+        moves.addAll(castler.validCastleMoves(gameBoard,startPosition));
         return moves;
     }
 
@@ -123,8 +126,10 @@ public class ChessGame {
             throw new InvalidMoveException();
         }
         else {
+            castler.castle(gameBoard,move);
             gameBoard.makeMove(move);
             updateTeamTurn();
+            castler.checkIfCastleLost(move);
         }
     }
 
