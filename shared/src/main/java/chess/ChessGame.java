@@ -14,11 +14,13 @@ public class ChessGame {
     private TeamColor turn = TeamColor.WHITE;
     private ChessBoard gameBoard;
     private Castler castler;
+    private EnPassanter enPassanter;
 
     public ChessGame() {
         gameBoard = new ChessBoard();
         gameBoard.resetBoard();
         castler = new Castler();
+        enPassanter = new EnPassanter();
     }
 
     /**
@@ -68,8 +70,15 @@ public class ChessGame {
         }
 
         Collection<ChessMove> moves = gameBoard.getPiece(startPosition).pieceMoves(gameBoard,startPosition);
-        Collection<ChessMove> movesToBeRemoved = new HashSet<ChessMove>();
 
+        Collection<ChessMove> enPassantMoves = enPassanter.getEnPassantMoves();
+        for(ChessMove move : enPassantMoves) {
+            if(move.getStartPosition().equals(startPosition)) {
+                moves.add(move);
+            }
+        }
+
+        Collection<ChessMove> movesToBeRemoved = new HashSet<ChessMove>();
         for(ChessMove move : moves) {
             ChessBoard testBoard = gameBoard.clone();
             testBoard.makeMove(move);
@@ -80,6 +89,7 @@ public class ChessGame {
 
         moves.removeAll(movesToBeRemoved);
         moves.addAll(castler.validCastleMoves(gameBoard,startPosition));
+
         return moves;
     }
 
@@ -130,6 +140,8 @@ public class ChessGame {
             gameBoard.makeMove(move);
             updateTeamTurn();
             castler.checkIfCastleLost(move);
+            enPassanter.performEnPassant(gameBoard,move);
+            enPassanter.updateEnPassantMoves(gameBoard,move);
         }
     }
 
@@ -188,7 +200,11 @@ public class ChessGame {
      *
      * @param board the new board to use
      */
-    public void setBoard(ChessBoard board) { gameBoard = board; }
+    public void setBoard(ChessBoard board) {
+        gameBoard = board;
+        castler = new Castler();
+        enPassanter = new EnPassanter();
+    }
 
     /**
      * Gets the current chessboard
