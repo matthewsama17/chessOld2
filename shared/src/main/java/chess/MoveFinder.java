@@ -23,13 +23,21 @@ public class MoveFinder {
 
         if(myColor == ChessGame.TeamColor.WHITE) {
             direction = 1;
-            if(row == 2) { atStart = true; }
-            if(row == 7) {atEnd = true; }
+            if(row == 2) {
+                atStart = true;
+            }
+            if(row == 7) {
+                atEnd = true;
+            }
         }
         else if(myColor == ChessGame.TeamColor.BLACK) {
             direction = -1;
-            if(row == 2) { atEnd = true; }
-            if(row == 7) {atStart = true; }
+            if(row == 2) {
+                atEnd = true;
+            }
+            if(row == 7) {
+                atStart = true;
+            }
         }
 
         //advance

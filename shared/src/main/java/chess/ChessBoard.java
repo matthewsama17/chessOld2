@@ -21,7 +21,9 @@ public class ChessBoard implements Cloneable {
      * @param position where to add the piece to
      * @param piece    the piece to add
      */
-    public void addPiece(ChessPosition position, ChessPiece piece) { squares[position.getRow()-1][position.getColumn()-1] = piece; }
+    public void addPiece(ChessPosition position, ChessPiece piece) {
+        squares[position.getRow()-1][position.getColumn()-1] = piece;
+    }
 
     /**
      * Gets a chess piece on the chessboard
@@ -30,7 +32,9 @@ public class ChessBoard implements Cloneable {
      * @return Either the piece at the position, or null if no piece is at that
      * position
      */
-    public ChessPiece getPiece(ChessPosition position) { return squares[position.getRow()-1][position.getColumn()-1]; }
+    public ChessPiece getPiece(ChessPosition position) {
+        return squares[position.getRow()-1][position.getColumn()-1];
+    }
 
     /**
      * Gets the color of a chess piece on the chessboard
@@ -41,7 +45,9 @@ public class ChessBoard implements Cloneable {
      */
     public ChessGame.TeamColor getPieceColor(ChessPosition position) {
         ChessPiece piece = getPiece(position);
-        if(piece == null) { return null; }
+        if(piece == null) {
+            return null;
+        }
         return piece.getTeamColor();
     }
 
@@ -54,7 +60,9 @@ public class ChessBoard implements Cloneable {
         ChessPosition startPosition = move.getStartPosition();
         ChessPosition endPosition = move.getEndPosition();
         ChessPiece.PieceType pieceType = move.getPromotionPiece();
-        if(pieceType == null) { pieceType = getPiece(startPosition).getPieceType(); }
+        if(pieceType == null) {
+            pieceType = getPiece(startPosition).getPieceType();
+        }
         ChessGame.TeamColor teamColor = getPieceColor(startPosition);
 
         addPiece(startPosition, null);
@@ -69,12 +77,16 @@ public class ChessBoard implements Cloneable {
      */
     public boolean isInCheck(ChessGame.TeamColor teamColor) {
         ChessPosition kingPosition = findKing(teamColor);
-        if(kingPosition == null) { return false; }
+        if(kingPosition == null) {
+            return false;
+        }
 
         for(int r = 1; r <= 8; r++) {
             for(int c = 1; c <= 8; c++) {
                 ChessPosition startPosition = new ChessPosition(r,c);
-                if(getPiece(startPosition) == null) { continue; }
+                if(getPiece(startPosition) == null) {
+                    continue;
+                }
 
                 Collection<ChessMove> moves = getPiece(startPosition).pieceMoves(this,startPosition);
                 for(ChessMove move : moves) {
@@ -98,7 +110,9 @@ public class ChessBoard implements Cloneable {
             for(int c = 1; c <= 8; c++) {
                 ChessPosition square = new ChessPosition(r,c);
                 ChessPiece piece = getPiece(square);
-                if(getPieceColor(square) == teamColor && piece.getPieceType() == ChessPiece.PieceType.KING) { return square; }
+                if(getPieceColor(square) == teamColor && piece.getPieceType() == ChessPiece.PieceType.KING) {
+                    return square;
+                }
             }
         }
         return null;

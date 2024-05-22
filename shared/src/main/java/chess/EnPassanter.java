@@ -10,7 +10,9 @@ import java.util.HashSet;
 public class EnPassanter {
     Collection<ChessMove> enPassantMoves = new HashSet<ChessMove>();
 
-    Collection<ChessMove> getEnPassantMoves() { return enPassantMoves; }
+    Collection<ChessMove> getEnPassantMoves() {
+        return enPassantMoves;
+    }
 
     void updateEnPassantMoves(ChessBoard board, ChessMove move) {
         enPassantMoves = new HashSet<ChessMove>();
@@ -19,11 +21,8 @@ public class EnPassanter {
         int startCol = move.getStartPosition().getColumn();
         int endRow = move.getEndPosition().getRow();
         int endCol = move.getEndPosition().getColumn();
-        ChessPiece piece = board.getPiece(move.getEndPosition());
 
-        if(piece.getPieceType() == ChessPiece.PieceType.PAWN
-                && startCol == endCol
-                && ((startRow == 2 && endRow == 4) || (startRow == 7 && endRow == 5))) {
+        if(isDoubleJump(board,move)) {
 
             ChessPosition otherPosition = new ChessPosition(endRow,endCol+1);
             if(otherPosition.onBoard()
@@ -43,11 +42,29 @@ public class EnPassanter {
                 enPassantMoves.add(new ChessMove(otherPosition,target,null));
             }
         }
+    }
 
+    private boolean isDoubleJump(ChessBoard board, ChessMove move) {
+        ChessPiece piece = board.getPiece(move.getEndPosition());
+        if(piece != null && piece.getPieceType() == ChessPiece.PieceType.PAWN) {
+            int startRow = move.getStartPosition().getRow();
+            int endRow = move.getEndPosition().getRow();
+
+            if(startRow == 2 && endRow == 4) {
+                return true;
+            }
+
+            if(startRow == 7 && endRow == 5) {
+                return true;
+            }
+        }
+        return false;
     }
 
     void performEnPassant(ChessBoard board, ChessMove move) {
-        if(!enPassantMoves.contains(move)) { return; }
+        if(!enPassantMoves.contains(move)) {
+            return;
+        }
         int row = move.getStartPosition().getRow();
         int col = move.getEndPosition().getColumn();
         board.addPiece(new ChessPosition(row,col),null);

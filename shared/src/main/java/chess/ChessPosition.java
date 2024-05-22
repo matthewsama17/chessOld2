@@ -20,18 +20,24 @@ public class ChessPosition {
      * @return which row this position is in
      * 1 codes for the bottom row
      */
-    public int getRow() { return row; }
+    public int getRow() {
+        return row;
+    }
 
     /**
      * @return which column this position is in
      * 1 codes for the left row
      */
-    public int getColumn() { return col; }
+    public int getColumn() {
+        return col;
+    }
 
     /**
      * @return true if both col and row are between 1 and 8 (inclusive)
      */
-    public boolean onBoard() { return row >= 1 && row <= 8 && col >= 1 && col <= 8; }
+    public boolean onBoard() {
+        return row >= 1 && row <= 8 && col >= 1 && col <= 8;
+    }
 
     @Override
     public String toString() {
