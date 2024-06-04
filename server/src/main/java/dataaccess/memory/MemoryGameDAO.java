@@ -1,6 +1,7 @@
 package dataaccess.memory;
 
 import chess.ChessGame;
+import dataaccess.DataAccessException;
 import dataaccess.GameDAO;
 import model.GameData;
 import model.GameList;
@@ -34,13 +35,15 @@ public class MemoryGameDAO implements GameDAO {
     }
 
     @Override
-    public void updateGame(int gameID, GameData game) {
+    public void updateGame(int gameID, GameData game) throws DataAccessException {
         for(GameData gameData : games) {
             if(gameData.gameID() == gameID) {
                 games.remove(gameData);
                 games.add(game);
+                return;
             }
         }
+        throw new DataAccessException("Game does not exist.");
     }
 
     @Override
