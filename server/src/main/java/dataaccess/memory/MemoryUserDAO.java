@@ -25,6 +25,6 @@ public class MemoryUserDAO implements UserDAO {
 
     @Override
     public void clear() {
-        users = new ArrayList<UserData>();
+        users.clear();
     }
 }
