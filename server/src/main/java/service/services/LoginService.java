@@ -5,6 +5,10 @@ import service.result.LoginResult;
 
 public class LoginService {
     public static LoginResult login(LoginRequest loginRequest) {
-        return null;
+        LoginResult result = new LoginResult();
+
+
+
+        return result;
     }
 }
