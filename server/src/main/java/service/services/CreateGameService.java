@@ -16,6 +16,12 @@ public class CreateGameService {
         AuthDAO authDAO = new MemoryAuthDAO();
         GameDAO gameDAO = new MemoryGameDAO();
 
+        if(gameName == null) {
+            result.setCode(400);
+            result.setError("Error: bad request");
+            return result;
+        }
+
         if(authDAO.getAuth(authToken) == null) {
             result.setCode(401);
             result.setError("Error: unauthorized");

@@ -17,6 +17,12 @@ public class RegisterService {
         UserDAO userDAO = new MemoryUserDAO();
         AuthDAO authDAO = new MemoryAuthDAO();
 
+        if(username == null || password == null || email == null) {
+            result.setCode(400);
+            result.setError("Error: bad request");
+            return result;
+        }
+
         if(userDAO.getUser(username) != null) {
             result.setCode(403);
             result.setError("Error: already taken");
