@@ -4,7 +4,7 @@ public class Result {
 
     int code = 200;
     private boolean isError = false;
-    private String errorMessage = null;
+    private String message = null;
 
     public void setCode(int code) {
         this.code = code;
@@ -16,7 +16,7 @@ public class Result {
 
     public void setError(String errorMessage) {
         isError = true;
-        this.errorMessage = errorMessage;
+        this.message = errorMessage;
     }
 
     public boolean isError() {
@@ -24,6 +24,6 @@ public class Result {
     }
 
     public String getErrorMessage() {
-        return errorMessage;
+        return message;
     }
 }
