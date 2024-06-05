@@ -14,9 +14,10 @@ public class MemoryGameDAO implements GameDAO {
     private static ArrayList<GameData> games = new ArrayList<>();
 
     @Override
-    public void createGame(String gameName) {
+    public int createGame(String gameName) {
         lastGameID += 1;
         games.add(new GameData(lastGameID, null, null, gameName,new ChessGame()));
+        return lastGameID;
     }
 
     @Override
