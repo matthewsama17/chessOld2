@@ -1,4 +1,4 @@
-package service.result;
+package result;
 
 public class LoginResult extends Result {
 

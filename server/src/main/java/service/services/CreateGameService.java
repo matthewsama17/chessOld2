@@ -4,8 +4,8 @@ import dataaccess.AuthDAO;
 import dataaccess.GameDAO;
 import dataaccess.memory.MemoryAuthDAO;
 import dataaccess.memory.MemoryGameDAO;
-import service.request.CreateGameRequest;
-import service.result.CreateGameResult;
+import request.CreateGameRequest;
+import result.CreateGameResult;
 
 public class CreateGameService {
     public static CreateGameResult createGame(CreateGameRequest createGameRequest) {

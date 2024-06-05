@@ -6,7 +6,7 @@ import dataaccess.UserDAO;
 import dataaccess.memory.MemoryAuthDAO;
 import dataaccess.memory.MemoryGameDAO;
 import dataaccess.memory.MemoryUserDAO;
-import service.result.Result;
+import result.Result;
 
 public class ClearService {
     public static Result clear() {

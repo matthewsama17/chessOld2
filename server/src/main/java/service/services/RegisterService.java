@@ -4,8 +4,8 @@ import dataaccess.AuthDAO;
 import dataaccess.UserDAO;
 import dataaccess.memory.MemoryAuthDAO;
 import dataaccess.memory.MemoryUserDAO;
-import service.request.RegisterRequest;
-import service.result.LoginResult;
+import request.RegisterRequest;
+import result.LoginResult;
 
 public class RegisterService {
     public static LoginResult register(RegisterRequest registerRequest) {

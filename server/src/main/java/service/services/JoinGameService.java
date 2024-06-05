@@ -8,8 +8,8 @@ import dataaccess.memory.MemoryAuthDAO;
 import dataaccess.memory.MemoryGameDAO;
 import model.AuthData;
 import model.GameData;
-import service.request.JoinGameRequest;
-import service.result.Result;
+import request.JoinGameRequest;
+import result.Result;
 
 public class JoinGameService {
     public static Result joinGame(JoinGameRequest joinGameRequest) {

@@ -2,8 +2,8 @@ package service.services;
 
 import dataaccess.AuthDAO;
 import dataaccess.memory.MemoryAuthDAO;
-import service.request.LogoutRequest;
-import service.result.Result;
+import request.LogoutRequest;
+import result.Result;
 
 public class LogoutService {
     public static Result logout(LogoutRequest logoutRequest) {

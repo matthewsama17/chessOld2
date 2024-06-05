@@ -4,8 +4,8 @@ import dataaccess.AuthDAO;
 import dataaccess.GameDAO;
 import dataaccess.memory.MemoryAuthDAO;
 import dataaccess.memory.MemoryGameDAO;
-import service.request.ListGamesRequest;
-import service.result.ListGamesResult;
+import request.ListGamesRequest;
+import result.ListGamesResult;
 
 public class ListGamesService {
     public static ListGamesResult listGames(ListGamesRequest listGamesRequest) {
