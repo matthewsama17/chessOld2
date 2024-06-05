@@ -1,25 +1,20 @@
 package service.services;
 
 import dataaccess.AuthDAO;
+import dataaccess.DataAccessException;
 import dataaccess.memory.MemoryAuthDAO;
 import request.LogoutRequest;
 
 public class LogoutService {
-    public static Result logout(LogoutRequest logoutRequest) {
+    public static void logout(LogoutRequest logoutRequest) throws DataAccessException {
         String authToken = logoutRequest.authToken();
 
-        Result result = new Result();
         AuthDAO authDAO = new MemoryAuthDAO();
 
         if(authDAO.getAuth(authToken) == null) {
-            result.setCode(401);
-            result.setError("Error: unauthorized");
-            return result;
+            throw new DataAccessException("Error: unauthorized");
         }
 
         authDAO.deleteAuth(authToken);
-
-        result.setCode(200);
-        return result;
     }
 }

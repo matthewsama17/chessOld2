@@ -11,36 +11,29 @@ import model.GameData;
 import request.JoinGameRequest;
 
 public class JoinGameService {
-    public static Result joinGame(JoinGameRequest joinGameRequest) {
+    public static void joinGame(JoinGameRequest joinGameRequest) throws DataAccessException {
         String authToken = joinGameRequest.authToken();
         ChessGame.TeamColor playerColor = joinGameRequest.playerColor();
         int gameID = joinGameRequest.gameID();
 
-        Result result = new Result();
         AuthDAO authDAO = new MemoryAuthDAO();
         GameDAO gameDAO = new MemoryGameDAO();
 
         AuthData authData = authDAO.getAuth(authToken);
         if(authData == null) {
-            result.setCode(401);
-            result.setError("Error: unauthorized");
-            return result;
+            throw new DataAccessException("Error: unauthorized");
         }
         String username = authData.username();
 
         GameData gameData = gameDAO.getGame(gameID);
         if(gameData == null || playerColor == null) {
-            result.setCode(400);
-            result.setError("Error: bad request");
-            return result;
+            throw new DataAccessException("Error: bad request");
         }
 
 
         if(((playerColor == ChessGame.TeamColor.BLACK) && (gameData.blackUsername() != null))
                 || ((playerColor == ChessGame.TeamColor.WHITE) && (gameData.whiteUsername() != null))) {
-            result.setCode(403);
-            result.setError("Error: already taken");
-            return result;
+            throw new DataAccessException("Error: already taken");
         }
 
         String whiteUsername = gameData.whiteUsername();
@@ -55,15 +48,6 @@ public class JoinGameService {
         ChessGame game = gameData.game();
         GameData newGameData = new GameData(gameID,whiteUsername,blackUsername,gameName,game);
 
-        try {
-            gameDAO.updateGame(gameID, newGameData);
-        } catch(DataAccessException ex) {
-            result.setCode(400);
-            result.setError("Error: bad request");
-            return result;
-        }
-
-        result.setCode(200);
-        return result;
+        gameDAO.updateGame(gameID, newGameData);
     }
 }

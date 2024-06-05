@@ -44,7 +44,7 @@ public class MemoryGameDAO implements GameDAO {
                 return;
             }
         }
-        throw new DataAccessException("Game does not exist.");
+        throw new DataAccessException("Error: bad request");
     }
 
     @Override

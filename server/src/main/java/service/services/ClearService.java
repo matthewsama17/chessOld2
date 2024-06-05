@@ -8,9 +8,7 @@ import dataaccess.memory.MemoryGameDAO;
 import dataaccess.memory.MemoryUserDAO;
 
 public class ClearService {
-    public static Result clear() {
-        Result result = new Result();
-
+    public static void clear() {
         AuthDAO authDAO = new MemoryAuthDAO();
         authDAO.clear();
 
@@ -19,7 +17,5 @@ public class ClearService {
 
         UserDAO userDAO = new MemoryUserDAO();
         userDAO.clear();
-
-        return result;
     }
 }
