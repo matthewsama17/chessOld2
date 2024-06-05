@@ -9,7 +9,6 @@ import dataaccess.memory.MemoryGameDAO;
 import model.AuthData;
 import model.GameData;
 import request.JoinGameRequest;
-import result.Result;
 
 public class JoinGameService {
     public static Result joinGame(JoinGameRequest joinGameRequest) {

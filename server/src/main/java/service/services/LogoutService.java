@@ -3,7 +3,6 @@ package service.services;
 import dataaccess.AuthDAO;
 import dataaccess.memory.MemoryAuthDAO;
 import request.LogoutRequest;
-import result.Result;
 
 public class LogoutService {
     public static Result logout(LogoutRequest logoutRequest) {
