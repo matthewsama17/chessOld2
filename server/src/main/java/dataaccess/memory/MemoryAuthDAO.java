@@ -31,6 +31,7 @@ public class MemoryAuthDAO implements AuthDAO {
         for(AuthData auth : auths) {
             if(auth.authToken() == authToken) {
                 auths.remove(auth);
+                break;
             }
         }
     }

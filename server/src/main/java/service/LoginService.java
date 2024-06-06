@@ -19,12 +19,12 @@ public class LoginService {
 
         UserData userData = userDAO.getUser(username);
 
-        if(userData.password() == null || userData.password().equals(password)) {
+        if(userData.password() == null || !userData.password().equals(password)) {
             throw new DataAccessException("Error: unauthorized");
         }
 
         String authToken = authDAO.createAuth(username);
 
-        return new LoginResult(authToken, username);
+        return new LoginResult(username,authToken);
     }
 }

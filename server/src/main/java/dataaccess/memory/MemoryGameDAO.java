@@ -4,8 +4,10 @@ import chess.ChessGame;
 import dataaccess.DataAccessException;
 import dataaccess.GameDAO;
 import model.GameData;
-import model.GameList;
+import model.GameDataSimple;
+
 import java.util.ArrayList;
+import java.util.List;
 
 public class MemoryGameDAO implements GameDAO {
 
@@ -31,8 +33,14 @@ public class MemoryGameDAO implements GameDAO {
     }
 
     @Override
-    public GameList listGames() {
-        return new GameList(games);
+    public List<GameDataSimple> listGames() {
+        List<GameDataSimple> result = new ArrayList<>();
+
+        for(GameData game : games) {
+            result.add(new GameDataSimple(game));
+        }
+
+        return result;
     }
 
     @Override
