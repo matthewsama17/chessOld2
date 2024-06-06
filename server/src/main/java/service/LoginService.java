@@ -19,7 +19,7 @@ public class LoginService {
 
         UserData userData = userDAO.getUser(username);
 
-        if(userData.password() != password) {
+        if(userData.password() == null || userData.password().equals(password)) {
             throw new DataAccessException("Error: unauthorized");
         }
 
