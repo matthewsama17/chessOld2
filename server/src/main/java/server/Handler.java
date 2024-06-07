@@ -32,7 +32,7 @@ public class Handler {
         try {
             loginResult = RegisterService.register(registerRequest);
         } catch(DataAccessException ex) {
-            if(ex.equals(new DataAccessException("Error: already taken"))) {
+            if(ex.getMessage().equals("Error: already taken")) {
                 res.status(403);
                 ErrorMessage errorMessage = new ErrorMessage("Error: already taken");
                 return gson.toJson(errorMessage);
@@ -73,7 +73,8 @@ public class Handler {
     }
 
     public static String logout(Request req, Response res) {
-        LogoutRequest logoutRequest = gson.fromJson(req.body(), LogoutRequest.class);
+        String authToken = req.headers("authorization");
+        LogoutRequest logoutRequest = new LogoutRequest(authToken);
 
         try {
             LogoutService.logout(logoutRequest);
@@ -92,7 +93,8 @@ public class Handler {
     }
 
     public static String listGames(Request req, Response res) {
-        ListGamesRequest listGamesRequest = gson.fromJson(req.body(), ListGamesRequest.class);
+        String authToken = req.headers("authorization");
+        ListGamesRequest listGamesRequest = new ListGamesRequest(authToken);
         ListGamesResult listGamesResult;
 
         try {
@@ -112,13 +114,15 @@ public class Handler {
     }
 
     public static String createGame(Request req, Response res) {
+        String authToken = req.headers("authorization");
         CreateGameRequest createGameRequest = gson.fromJson(req.body(), CreateGameRequest.class);
+        createGameRequest = new CreateGameRequest(authToken,createGameRequest.gameName());
         CreateGameResult createGameResult;
 
         try {
             createGameResult = CreateGameService.createGame(createGameRequest);
         } catch(DataAccessException ex) {
-            if(ex.equals(new DataAccessException("Error: unauthorized"))) {
+            if(ex.getMessage().equals("Error: unauthorized")) {
                 res.status(401);
                 ErrorMessage errorMessage = new ErrorMessage("Error: unauthorized");
                 return gson.toJson(errorMessage);
@@ -139,17 +143,19 @@ public class Handler {
     }
 
     public static String joinGame(Request req, Response res) {
+        String authToken = req.headers("authorization");
         JoinGameRequest joinGameRequest = gson.fromJson(req.body(), JoinGameRequest.class);
+        joinGameRequest = new JoinGameRequest(authToken, joinGameRequest.playerColor(), joinGameRequest.gameID());
 
         try {
             JoinGameService.joinGame(joinGameRequest);
         } catch(DataAccessException ex) {
-            if(ex.equals(new DataAccessException("Error: unauthorized"))) {
+            if(ex.getMessage().equals("Error: unauthorized")) {
                 res.status(401);
                 ErrorMessage errorMessage = new ErrorMessage("Error: unauthorized");
                 return gson.toJson(errorMessage);
             }
-            else if(ex.equals(new DataAccessException("Error: already taken"))) {
+            else if(ex.getMessage().equals("Error: already taken")) {
                 res.status(403);
                 ErrorMessage errorMessage = new ErrorMessage("Error: already taken");
                 return gson.toJson(errorMessage);

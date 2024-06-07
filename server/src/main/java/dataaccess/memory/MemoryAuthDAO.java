@@ -19,7 +19,7 @@ public class MemoryAuthDAO implements AuthDAO {
     @Override
     public AuthData getAuth(String authToken) {
         for(AuthData auth : auths) {
-            if(auth.authToken() == authToken) {
+            if(auth.authToken().equals(authToken)) {
                 return auth;
             }
         }
@@ -29,7 +29,7 @@ public class MemoryAuthDAO implements AuthDAO {
     @Override
     public void deleteAuth(String authToken) {
         for(AuthData auth : auths) {
-            if(auth.authToken() == authToken) {
+            if(auth.authToken().equals(authToken)) {
                 auths.remove(auth);
                 break;
             }
