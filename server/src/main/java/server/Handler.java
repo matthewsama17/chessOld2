@@ -1,13 +1,26 @@
 package server;
 
 import com.google.gson.Gson;
+import service.*;
+import result.*;
 import spark.Request;
 import spark.Response;
 
 public class Handler {
 
+    private static Gson gson = new Gson();
+
     public static String clear(Request req, Response res) {
-        return "clears database";
+        try {
+            ClearService.clear();
+        } catch(Error error) {
+            res.status(500);
+            ErrorMessage errorMessage = new ErrorMessage("Error: " + error.getMessage());
+            return gson.toJson(errorMessage);
+        }
+
+        res.status(200);
+        return "{}";
     }
 
     public static String register(Request req, Response res) {
