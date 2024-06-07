@@ -98,15 +98,6 @@ public class ChessGame {
     }
 
     /**
-     * Determines if the current team has a valid move
-     *
-     * @return True if the current team has no valid move
-     */
-    public boolean currentTeamHasNoMoves() {
-        return hasNoMoves(turn);
-    }
-
-    /**
      * Determines if the given team has a valid move
      *
      * @param teamColor which team to check for moves
@@ -154,15 +145,6 @@ public class ChessGame {
     }
 
     /**
-     * Determines if the current team is in check
-     *
-     * @return True if the current team is in check
-     */
-    public boolean currentTeamIsInCheck() {
-        return gameBoard.isInCheck(turn);
-    }
-
-    /**
      * Determines if the given team is in check
      *
      * @param teamColor which team to check for check
@@ -173,15 +155,6 @@ public class ChessGame {
     }
 
     /**
-     * Determines if the current team is in checkmate
-     *
-     * @return True if the current team is in checkmate
-     */
-    public boolean currentTeamIsInCheckmate() {
-        return currentTeamIsInCheck() && currentTeamHasNoMoves();
-    }
-
-    /**
      * Determines if the given team is in checkmate
      *
      * @param teamColor which team to check for checkmate
@@ -189,16 +162,6 @@ public class ChessGame {
      */
     public boolean isInCheckmate(TeamColor teamColor) {
         return isInCheck(teamColor) && hasNoMoves(teamColor);
-    }
-
-    /**
-     * Determines if the current team is in stalemate, which here is defined as having
-     * no valid moves
-     *
-     * @return True if the current team is in stalemate, otherwise false
-     */
-    public boolean currentTeamIsInStalemate() {
-        return !currentTeamIsInCheck() && currentTeamHasNoMoves();
     }
 
     /**
