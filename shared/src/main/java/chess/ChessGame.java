@@ -82,7 +82,7 @@ public class ChessGame {
             }
         }
 
-        Collection<ChessMove> movesToBeRemoved = new HashSet<ChessMove>();
+        Collection<ChessMove> movesToBeRemoved = new HashSet<>();
         for(ChessMove move : moves) {
             ChessBoard testBoard = gameBoard.clone();
             testBoard.makeMove(move);
