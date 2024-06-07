@@ -32,16 +32,8 @@ public class Handler {
         try {
             loginResult = RegisterService.register(registerRequest);
         } catch(DataAccessException ex) {
-            if(ex.getMessage().equals("Error: already taken")) {
-                res.status(403);
-                ErrorMessage errorMessage = new ErrorMessage("Error: already taken");
-                return gson.toJson(errorMessage);
-            }
-            else {
-                res.status(400);
-                ErrorMessage errorMessage = new ErrorMessage("Error: bad request");
-                return gson.toJson(errorMessage);
-            }
+            ErrorMessage errorMessage = generateErrorMessage(ex, res);
+            return gson.toJson(errorMessage);
         } catch(Error error) {
             res.status(500);
             ErrorMessage errorMessage = new ErrorMessage("Error: " + error.getMessage());
@@ -59,8 +51,7 @@ public class Handler {
         try {
             loginResult = LoginService.login(loginRequest);
         } catch(DataAccessException ex) {
-            res.status(401);
-            ErrorMessage errorMessage = new ErrorMessage("Error: unauthorized");
+            ErrorMessage errorMessage = generateErrorMessage(ex, res);
             return gson.toJson(errorMessage);
         } catch(Error error) {
             res.status(500);
@@ -79,8 +70,7 @@ public class Handler {
         try {
             LogoutService.logout(logoutRequest);
         } catch(DataAccessException ex) {
-            res.status(401);
-            ErrorMessage errorMessage = new ErrorMessage("Error: unauthorized");
+            ErrorMessage errorMessage = generateErrorMessage(ex, res);
             return gson.toJson(errorMessage);
         } catch(Error error) {
             res.status(500);
@@ -100,8 +90,7 @@ public class Handler {
         try {
             listGamesResult = ListGamesService.listGames(listGamesRequest);
         } catch(DataAccessException ex) {
-            res.status(401);
-            ErrorMessage errorMessage = new ErrorMessage("Error: unauthorized");
+            ErrorMessage errorMessage = generateErrorMessage(ex, res);
             return gson.toJson(errorMessage);
         } catch(Error error) {
             res.status(500);
@@ -122,16 +111,8 @@ public class Handler {
         try {
             createGameResult = CreateGameService.createGame(createGameRequest);
         } catch(DataAccessException ex) {
-            if(ex.getMessage().equals("Error: unauthorized")) {
-                res.status(401);
-                ErrorMessage errorMessage = new ErrorMessage("Error: unauthorized");
-                return gson.toJson(errorMessage);
-            }
-            else {
-                res.status(400);
-                ErrorMessage errorMessage = new ErrorMessage("Error: bad request");
-                return gson.toJson(errorMessage);
-            }
+            ErrorMessage errorMessage = generateErrorMessage(ex, res);
+            return gson.toJson(errorMessage);
         } catch(Error error) {
             res.status(500);
             ErrorMessage errorMessage = new ErrorMessage("Error: " + error.getMessage());
@@ -150,21 +131,9 @@ public class Handler {
         try {
             JoinGameService.joinGame(joinGameRequest);
         } catch(DataAccessException ex) {
-            if(ex.getMessage().equals("Error: unauthorized")) {
-                res.status(401);
-                ErrorMessage errorMessage = new ErrorMessage("Error: unauthorized");
-                return gson.toJson(errorMessage);
-            }
-            else if(ex.getMessage().equals("Error: already taken")) {
-                res.status(403);
-                ErrorMessage errorMessage = new ErrorMessage("Error: already taken");
-                return gson.toJson(errorMessage);
-            }
-            else {
-                res.status(400);
-                ErrorMessage errorMessage = new ErrorMessage("Error: bad request");
-                return gson.toJson(errorMessage);
-            }
+            ErrorMessage errorMessage = generateErrorMessage(ex, res);
+            return gson.toJson(errorMessage);
+
         } catch(Error error) {
             res.status(500);
             ErrorMessage errorMessage = new ErrorMessage("Error: " + error.getMessage());
@@ -173,5 +142,21 @@ public class Handler {
 
         res.status(200);
         return "{}";
+    }
+
+    private static ErrorMessage generateErrorMessage(DataAccessException ex, Response res) {
+        String message = ex.getMessage();
+
+        if(message.equals("Error: bad request")) {
+            res.status(400);
+        }
+        else if(message.equals("Error: unauthorized")) {
+            res.status(401);
+        }
+        else if(message.equals("Error: already taken")) {
+            res.status(403);
+        }
+
+        return new ErrorMessage(message);
     }
 }
